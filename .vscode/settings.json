@@ -1,0 +1,17 @@
+{
+  "[typescript]": {
+   "editor.defaultFormatter": "hb432.prettier-eslint-typescript",
+   "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
+  },
+   "editor.formatOnSave": true,
+   "editor.formatOnType": true
+  },
+
+  "[sql]": {
+   "editor.formatOnSave": false
+  },
+  "editor.rulers": [100],
+  "editor.tabSize": 2
+ }
