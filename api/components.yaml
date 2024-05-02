@@ -1,0 +1,59 @@
+components:
+  schemas:
+    Package:
+      type: object
+      properties:
+        package_id:
+          type: string
+        acrive_delivery_id:
+          type: string
+        weight:
+          type: number
+        width:
+          type: number
+        height:
+          type: num
+        depth:
+          type: number
+        from_name:
+          type: number
+        from_address:
+          type: number
+        from_location:
+          type: Location
+        to_name:
+          type: string
+        to_address:
+          type: string
+        to_location:
+          type: Location
+    
+    Delivery:
+      type: object
+      properties:
+        delivery_id:
+          type: string
+        package_id:
+          type: string
+        pickup_time:
+          type: string
+        start_time:
+          type: string
+        end_time:
+          type: string
+        location:
+          type: Location
+        status:
+          type: string
+    
+    Location:
+      type: object
+      properties:
+        lat:
+          type: number
+        lng:
+          type: number
+        
+      
+
+    

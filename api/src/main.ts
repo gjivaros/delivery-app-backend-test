@@ -9,22 +9,6 @@ import { appLog } from "./share/app-log";
 async function main() {
   await initDataSource(appConfig.database.url);
 
-  // io.on("connection", (socket) => {
-  //   console.log("a user connected");
-
-  //   socket.emit("location_changed", (payload: any) => {
-  //     console.log("location_changed", payload);
-  //   });
-
-  //   socket.emit("status_changed", (payload: any) => {
-  //     console.log("status_changed", payload);
-  //   });
-
-  //   socket.on("delivery_updated", (payload) => {
-  //     io.emit("delivery_updated", payload);
-  //   });
-  // });
-
   io.on("connection", (socket) => {
     console.log("a user connected");
 
@@ -36,6 +20,7 @@ async function main() {
           case "status_changed":
             const delivery = await updateDeliveryStatus(payload);
 
+            console.log("_______________delivery", delivery);
             if (delivery) {
               const data = {
                 event: EVENT.DELIVERY_UPDATED,
@@ -52,6 +37,32 @@ async function main() {
         console.log("socker error", error);
       }
     });
+  });
+
+  const exitHandler = () => {
+    if (server) {
+      server.close(() => {
+        appLog.info("Server closed");
+        process.exit(1);
+      });
+    } else {
+      process.exit(1);
+    }
+  };
+
+  const unexpectedErrorHandler = (error: string) => {
+    appLog.error(error);
+    exitHandler();
+  };
+
+  process.on("uncaughtException", unexpectedErrorHandler);
+  process.on("unhandledRejection", unexpectedErrorHandler);
+
+  process.on("SIGTERM", () => {
+    appLog.info("SIGTERM received");
+    if (server) {
+      server.close();
+    }
   });
 
   server.listen(appConfig.thisServer.port, () => {
